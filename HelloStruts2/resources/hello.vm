@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>Hello Velocity</title>
+</head>
+<body>
+
+This is Velocity Template Example.
+<br><br>
+Hello World <b>${name}</b>
+ 
+</body>
+</html>

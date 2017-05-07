@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.devMode" value="true" />
+	<!-- <constant name="struts.action.extension" value=""/> -->
+	<constant name="struts.custom.i18n.resources" value="messages,another" />
+	<!-- <constant name="struts.custom.i18n.resources" value="another" /> -->
+
+	<package name="helloworld" namespace="/visitor" extends="struts-default">
+
+		<interceptors>
+			<interceptor name="myinterceptor" class="com.example.struts2.MyInterceptor" />
+			<interceptor name="myinterceptor2" class="com.example.struts2.MyInterceptor2" />
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="params" />
+				<interceptor-ref name="myinterceptor" />
+				<interceptor-ref name="myinterceptor2" />
+			</interceptor-stack>
+		</interceptors>
+
+		<action name="hello" class="com.example.struts2.HelloWorldStruts2"
+			method="execute">
+			<interceptor-ref name="myStack" />
+			<!-- <result name="success" type="httpheader"> <param name="status">200</param> 
+				<param name="headers.a">A for value ${name}</param> <param name="headers.b">B 
+				Variable in Header</param> <param name="headers.c">C Variable in Header</param> 
+				<param name="headers.d">D Variable in Header</param> <param name="location">/HelloWorld.jsp</param> 
+				</result> <result name="error" type="httpheader"> <param name="error">404</param> 
+				<param name="errorMessage">Error occured while processing ${name}</param> 
+				</result> -->
+
+			<!-- <result name="success" type="chain"> <param name="actionName">chain</param> 
+				<param name="namespace">/secure</param> </result> -->
+			<!-- <result name="success" type="redirect">/HelloWorld.jsp?name=${name} 
+				</result> -->
+			<result name="error">/AccessDenied.jsp</result>
+			<!-- <result name="success" type="freemarker"> <param name="location">/hello.fm</param> 
+				</result> -->
+			<result name="success" type="velocity">hello.vm</result>
+
+
+			<!-- <result name="success" type="redirectAction"> <param name="actionName">chain</param> 
+				<param name="namespace">/secure</param> <param name="name">${name}</param> 
+				</result> <result name="error">/AccessDenied.jsp</result> -->
+
+		</action>
+
+		<action name="helloview" class="com.example.struts2.ChainAction"
+			method="execute">
+			<result name="success">/HelloWorld.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="secure" extends="struts-default" namespace="/secure">
+		<action name="chain" class="com.example.struts2.ChainAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">chain2?name=${name}</param>
+				<param name="namespace">/secure</param>
+			</result>
+		</action>
+
+		<action name="chain2" class="com.example.struts2.ChainAction2">
+			<result name="success">/Chain.jsp</result>
+		</action>
+	</package>
+
+
+
+	<package name="imageDefault" extends="struts-default"
+		namespace="/">
+
+		<action name="loadimage" class="com.example.struts2.FileDisplay">
+			<result name="success" type="stream">
+				<param name="contentType">${type}</param>
+				<param name="inputName">imageSource</param>
+				<param name="contentDisposition">attachment;filename="${filename}"</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+	</package>
+
+
+	<package name="jsonex" extends="json-default">
+		<action name="viewjson" class="com.example.struts2.JSONAction">
+			<result name="success" type="json" />
+		</action>
+	</package>
+
+	<package name="xslDefault" extends="struts-default">
+		<action name="doXSL" class="com.example.struts2.XSLAction">
+			<result type="xslt" name="success">
+				<param name="stylesheetLocation">style.xslt</param>
+				<!-- <param name="matchingPattern">^/xslresult/[^/*]$</param> -->
+				<param name="matchingPattern">^/code/[^/*]$</param>
+			</result>
+			<result name="input">/xsltest.jsp</result>
+		</action>
+	</package>
+
+	<package name="user" extends="struts-default">
+		<action name="welcome" method="valueStackMethod"
+			class="com.example.struts2.HelloWorldStruts2">
+			<result name="success">/Welcome.jsp</result>
+		</action>
+		<action name="Employee" class="com.example.struts2.EmployeeAction">
+			<result name="success">/employee.jsp</result>
+		</action>
+		<action name="ActionTag" method="actionTagExecute"
+			class="com.example.struts2.EmployeeAction">
+			<result name="success">/ActionTag.jsp</result>
+		</action>
+		<action name="system" class="com.example.struts2.SystemDetails"
+			method="execute">
+			<result name="success">/System.jsp</result>
+		</action>
+		<action name="textTag" method="textTagExecute"
+			class="com.example.struts2.HelloWorldStruts2">
+			<result name="success">/textTag.jsp</result>
+		</action>
+		<action name="urlTag" method="urlTagExecute"
+			class="com.example.struts2.HelloWorldStruts2">
+			<result name="success">/urlTag.jsp</result>
+		</action>
+
+
+	</package>
+
+	<package name="validation" namespace="/" extends="struts-default">
+		<action name="empinfo" class="com.example.struts2.ValidateAction">
+			<result name="success">/empSuccess.jsp</result>
+			<result name="input">/empForm.jsp</result>
+		</action>
+	</package>
+
+
+	<bean class="org.apache.struts2.views.velocity.VelocityManager"
+		name="helloworld" optional="true" />
+</struts>

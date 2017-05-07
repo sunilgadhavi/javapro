@@ -1,0 +1,12 @@
+<html>
+<head>
+    <title>Hello FreeMarker</title>
+</head>
+<body>
+
+This is FreeMarker Example.
+<br><br>
+Hello World <b>${name}</b>
+ 
+</body>
+</html>
