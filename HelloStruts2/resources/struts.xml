@@ -133,6 +133,11 @@
 			<result name="success">/empSuccess.jsp</result>
 			<result name="input">/empForm.jsp</result>
 		</action>
+		<action name="submitFieldValidatorsExamples" class="com.example.struts2.FieldValidatorsExampleAction"
+		    method="submitFieldValidatorsExamples">
+			<result name="success">/defaultSuccess.jsp</result>
+			<result name="input">/fieldForm.jsp</result>
+		</action>
 	</package>
 
 

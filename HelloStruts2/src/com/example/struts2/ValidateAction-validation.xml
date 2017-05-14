@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+	<field name="emp.empName">
+		<field-validator type="required">
+			<message>
+				The name is required.
+			</message>
+		</field-validator>
+	</field>
+	<field name="emp.age">
+		<field-validator type="int">
+			<param name="min">29</param>
+			<param name="max">64</param>
+			<message>
+				Age must be in between 28 and 65 by xml
+			</message>
+		</field-validator>
+	</field>
+</validators>
